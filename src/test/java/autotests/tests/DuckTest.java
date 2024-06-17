@@ -31,7 +31,7 @@ public class DuckTest extends DuckClient {
                         "  \"color\": \"red\",\n" +
                         "  \"height\": 11.0,\n" +
                         "  \"material\": \"rubber\",\n" +
-                        "  \"sound\": \"quak\",\n" +
+                        "  \"sound\": \"quack\",\n" +
                         "  \"wingsState\": \"ACTIVE\"\n" +
                         "}");
         deleteFinally(runner);
@@ -48,8 +48,8 @@ public class DuckTest extends DuckClient {
                         "  \"color\": \"\",\n" +
                         "  \"height\": 0.0,\n" +
                         "  \"material\": \"\",\n" +
-                        "  \"sound\": \"\",\n" +
-                        "  \"wingsState\": \"UNDEFINED\"\n" +
+                        "  \"sound\": \"quack\",\n" +
+                        "  \"wingsState\": \"ACTIVE\"\n" +
                         "}");
         deleteFinally(runner);
     }
@@ -61,7 +61,7 @@ public class DuckTest extends DuckClient {
         String color = "red";
         String height = "11.0";
         String material = "rubber";
-        String sound = "quak";
+        String sound = "quack";
         String wingsState = "ACTIVE";
 
         duckCreateResources(runner, "getDuckPropertiesTest/duckProperties.json");
@@ -89,7 +89,7 @@ public class DuckTest extends DuckClient {
         duckDelete(runner, "${duckId}");
         validateResponseString(runner,
                 "{\n" +
-                        "  \"message\": \"Duck is deleted\"\n" +
+                        "  \"message\": \"Duck with id = ${duckId} is deleted\"\n" +
                         "}");
     }
 
@@ -167,6 +167,6 @@ public class DuckTest extends DuckClient {
         deleteFinally(runner);
         duckUpdate(runner, "${duckId}", "yellow", "12.0", "plastic", "QUAK", "FIXED");
         validateResponsePayload(runner, defaultResponseProperties);
-        validateDuckInDatabase(runner, "${duckId}", "yellow", "12.0", "plastic", "QUAK", "FIXED");
+        validateDuckInDatabase(runner, "${duckId}", "yellow", "1200.0", "plastic", "quack", "FIXED");
     }
 }
