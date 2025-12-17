@@ -51,10 +51,16 @@ tasks.register('generateAllureReport', JavaExec) {
     ignoreExitValue = true
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
 test {
     useTestNG()
-    include '**/*Test*.java'
-    include '**/*Tests*.java'
     reports {
         junitXml.required = true
         html.required = true
