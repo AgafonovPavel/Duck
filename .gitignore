@@ -1,3 +1,19 @@
-.gradle
-.idea
-build
+gradle/
+build/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+*.swp
+*~
+
+# Java
+*.class
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini
