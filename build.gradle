@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.2'
 }
 
 group = 'autotest'
@@ -8,6 +7,10 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    allure
 }
 
 dependencies {
@@ -21,8 +24,37 @@ dependencies {
 
     testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+    allure 'io.qameta.allure:allure-commandline:2.23.0'
+}
+
+tasks.register('generateAllureReport', JavaExec) {
+    dependsOn test
+    description = 'Генерирует HTML-отчёт Allure из результатов тестов'
+    group = 'verification'
+
+    mainClass = 'io.qameta.allure.CommandLine'
+    classpath = configurations.allure
+
+    args = [
+            'generate',
+            'build/allure-results',
+            '--output', 'build/allure-report',
+            '--clean'
+    ]
+
+    doFirst {
+        file('build/allure-report').mkdirs()
+    }
+
+    ignoreExitValue = true
 }
 
 test {
     useTestNG()
+    systemProperty 'allure.results.directory', file('build/allure-results')
 }
+
+
+
+
+
