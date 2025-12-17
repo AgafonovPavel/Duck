@@ -9,10 +9,10 @@ repositories {
     mavenCentral()
 }
 
-configurations {
+/*configurations {
     allure
 }
-
+*/
 dependencies {
     testImplementation 'com.consol.citrus:citrus-java-dsl:3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-base', version: '3.4.0'
@@ -53,6 +53,10 @@ tasks.register('generateAllureReport', JavaExec) {
 
 test {
     useTestNG()
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
     systemProperty 'allure.results.directory', file('build/allure-results')
 
     testLogging {
