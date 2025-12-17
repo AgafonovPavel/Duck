@@ -64,6 +64,14 @@ test {
     reports {
         junitXml.required = true
         html.required = true
+        junitXml {
+            required = true
+            outputLocation = file("$buildDir/test-results/test/xml")
+        }
+        html {
+            required = true
+            outputLocation = file("$buildDir/reports/tests/test")
+        }
     }
     systemProperty 'allure.results.directory', file('build/allure-results')
 
