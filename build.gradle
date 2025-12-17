@@ -1,10 +1,9 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.2'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group = 'autotest'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -19,29 +18,10 @@ dependencies {
 
     testImplementation group: 'org.slf4j', name: 'slf4j-reload4j', version: '2.0.7'
 
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-
-    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.196'
-    testImplementation group: 'com.consol.citrus', name: 'citrus-sql', version: '3.4.0'
-}
-
-compileTestJava {
-    options.encoding = 'UTF-8'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 }
 
 test {
     useTestNG()
-    jvmArgs "-Dfile.encoding=UTF-8", "-Dsun.jnu.encoding=UTF-8"
-    systemProperty "file.encoding", "UTF-8"
-    systemProperty "sun.jnu.encoding", "UTF-8"
-
-    // чтобы Gradle не падал при ошибке JVM запуска
-    testLogging {
-        exceptionFormat = 'full'
-        showStandardStreams = true
-    }
-
-    // на случай сбоев — чтобы билд не валился
-    ignoreFailures = true
 }
