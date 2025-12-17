@@ -54,6 +54,15 @@ tasks.register('generateAllureReport', JavaExec) {
 test {
     useTestNG()
     systemProperty 'allure.results.directory', file('build/allure-results')
+
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+    }
 }
 
 
