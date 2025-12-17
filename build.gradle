@@ -57,11 +57,8 @@ test {
 
     testLogging {
         events "PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"
-        exceptionFormat "full"
-        showCauses true
-        showExceptions true
-        showStackTraces true
-        showStandardStreams true
+        showStandardStreams = true
+        exceptionFormat = "full"
     }
 }
 
