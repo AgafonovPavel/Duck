@@ -1,88 +1,39 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.9.6'
 }
 
-group = 'autotest'
+group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-configurations {
-    allure
-}
-
 dependencies {
-    testImplementation 'com.consol.citrus:citrus-java-dsl:3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-base', version: '3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-testng', version: '3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-spring', version: '3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-http', version: '3.4.0'
     testImplementation group: 'com.consol.citrus', name: 'citrus-validation-json', version: '3.4.0'
+    //Подключение БД
+    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.196'
+    testImplementation group: 'com.consol.citrus', name: 'citrus-sql', version: '3.4.0'
+
+    // Allure
+    testImplementation 'io.qameta.allure:allure-testng:2.9.6'
 
     testImplementation group: 'org.slf4j', name: 'slf4j-reload4j', version: '2.0.7'
 
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    testImplementation 'io.qameta.allure:allure-testng:2.23.0'
-    allure 'io.qameta.allure:allure-commandline:2.23.0'
-}
-
-tasks.register('generateAllureReport', JavaExec) {
-    dependsOn test
-    description = 'Генерирует HTML-отчёт Allure из результатов тестов'
-    group = 'verification'
-
-    mainClass = 'io.qameta.allure.CommandLine'
-    classpath = configurations.allure
-
-    args = [
-            'generate',
-            'build/allure-results',
-            '--output', 'build/allure-report',
-            '--clean'
-    ]
-
-    doFirst {
-        file('build/allure-report').mkdirs()
-    }
-
-    ignoreExitValue = true
-}
-
-sourceSets {
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-    }
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 }
 
 test {
     useTestNG()
-    reports {
-        junitXml.required = true
-        html.required = true
-        junitXml {
-            required = true
-            outputLocation = file("$buildDir/test-results/test/xml")
-        }
-        html {
-            required = true
-            outputLocation = file("$buildDir/reports/tests/test")
-        }
-    }
-    systemProperty 'allure.results.directory', file('build/allure-results')
-
-    testLogging {
-        events "PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"
-        showStandardStreams = true
-        exceptionFormat = "full"
-    }
+    systemProperty "allure.results.directory", "$buildDir/allure-results"
 }
 
-
-
-
-
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
