@@ -45,6 +45,14 @@ jobs:
       continue-on-error: true
       run: ./gradlew build
 
+    - name: Upload allure results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: allure-results
+          path: build/allure-results
+          retention-days: 30
+
     - name: Stop Duck
       continue-on-error: true
       run: pkill -f duck-service-2.0.0.jar || true
